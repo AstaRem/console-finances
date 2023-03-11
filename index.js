@@ -86,3 +86,83 @@ var finances = [
   ['Jan-2017', 138230],
   ['Feb-2017', 671099],
 ];
+
+/*
+You have been given a dataset composed of arrays with two fields, Date and Profit/Losses.
+
+Your task is to write JavaScript code that analyzes the records to calculate each of the following:
+
+
+
+
+*/
+
+console.log("Financial Analysis");
+console.log("--------------------------")
+// The total number of months included in the dataset.
+// I save each result in variable in case if I need to use it later(if further developing this app)
+
+let totalMonths = finances.length;
+console.log(`Total Months: ${totalMonths}`);
+
+let i = 0;
+let sum = 0;
+
+while(i < finances.length){
+  sum += finances[i][1];
+  i++;
+}
+
+console.log(`Total: $${sum}`)
+
+/*  
+The average of the changes in Profit/Losses over the entire period.
+
+You will need to track what the total change in Profit/Losses are from month to month and then find the average.
+(Total/(Number of months - 1))
+The greatest increase in Profit/Losses (date and amount) over the entire period.
+
+The greatest decrease in Profit/Losses (date and amount) over the entire period.
+
+*/
+
+//making 2 new arrays: one only with differences in profits, second: including months, when it happened.
+let differenceMonth;
+let differences = [];
+let differencesWithMonth = [];
+for (let c = 0; c < finances.length - 1; c++){
+  differenceMonth = finances[c + 1][1] - finances[c][1];
+  // console.log(`difference between ${c+1} and ${c}: ${differenceMonth}`)
+
+  differences.push(differenceMonth); //new array with difference values
+  differencesWithMonth.push([finances[c+1][0], differenceMonth ]); //new array: [month, difference]
+
+}
+
+// console.log(differences);
+// console.log(differencesWithMonth);
+
+//average change in profits
+let profitSum = 0;
+let averageProfit;
+for (let i = 0; i < differences.length; i++){
+  profitSum += differences[i];
+  averageProfit = profitSum / differences.length;
+}
+// console.log(profitSum);
+console.log(`Average change: ${averageProfit.toFixed(2)}`)
+
+
+
+// finding and logging max profit WITH month
+let maxProfit = Math.max(...differences);
+let indexOfMaxMonth = differences.indexOf(maxProfit);
+// console.log(indexOfMaxMonth); 
+console.log(`Greatest increase in Profits/Losses: ${differencesWithMonth[indexOfMaxMonth][0]} ($${maxProfit}) `);
+
+// finding and logging min profit WITH month
+let minProfit = Math.min(...differences);
+let indexOfMinMonth = differences.indexOf(minProfit);
+// console.log(indexOfMinMonth); 
+console.log(`Greatest decrease in Profits/Losses: ${differencesWithMonth[indexOfMinMonth][0]} ($${minProfit}) `);
+
